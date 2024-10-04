@@ -20,7 +20,7 @@ public class Main {
         SqlExecutor sqlExecutor = new SqlExecutor(connection);
         List<SqlData> data = new ArrayList<>();
 
-        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,1);
+        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,2);
         var list =  admin.addValueInTable(seller1);
 
         sqlExecutor.insert("INSERT INTO sellers (id, name, email, status, age, id_shop, is_active)" + "VALUES (?, ?, ?, ?, ?, ?, ?);",list);
