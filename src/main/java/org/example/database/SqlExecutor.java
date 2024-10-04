@@ -1,9 +1,7 @@
 package org.example.database;
 
-import org.example.ADMIN;
 import java.sql.*;
 import java.util.List;
-import java.util.Objects;
 
 public class SqlExecutor {
     private final Connection connection;
@@ -57,6 +55,23 @@ public class SqlExecutor {
         }
     }
 
+    public void Delete(String sql){
+        try {
+            Statement statement = connection.createStatement();
+            int rows = statement.executeUpdate(sql);
+        }catch (SQLException e){
+            throw new SqlRuntimeException(e);
+        }
+    }
+
+    public void Changedata(String sql){
+        try {
+            Statement statement = connection.createStatement();
+            int rows = statement.executeUpdate(sql);
+        }catch (SQLException e){
+            throw new SqlRuntimeException(e);
+        }
+    }
 
 
 

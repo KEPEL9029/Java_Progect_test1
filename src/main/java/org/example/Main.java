@@ -20,11 +20,12 @@ public class Main {
         SqlExecutor sqlExecutor = new SqlExecutor(connection);
         List<SqlData> data = new ArrayList<>();
 
-        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,2);
+        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,3);
         var list =  admin.addValueInTable(seller1);
 
         sqlExecutor.insert("INSERT INTO sellers (id, name, email, status, age, id_shop, is_active)" + "VALUES (?, ?, ?, ?, ?, ?, ?);",list);
-
+        sqlExecutor.Delete("DELETE FROM sellers WHERE id = 1");
+        sqlExecutor.Changedata("UPDATE sellers\n" + "SET name = 'Александр'\n" + "WHERE id = 1;\n");
 
         admin.addSeller(seller1);
         admin.removeSeller(seller1);
