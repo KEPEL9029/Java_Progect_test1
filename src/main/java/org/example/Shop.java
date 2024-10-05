@@ -6,15 +6,20 @@ public class Shop extends Stores{
     private boolean isOpen;
     private final List<Products> products;
 
-    public Shop(String storeName, String location, boolean isOpen){
+
+
+    private Integer idShop;
+
+    public Shop(String storeName, String location, boolean isOpen,Integer idShop){
         super(storeName,location);
         this.isOpen = isOpen;
         this.products = new ArrayList<>();
+        this.idShop = idShop;
     }
 
 
     // добавление продуктов
-    public void addProduct(String name, Integer quantity, Integer price){
+    public void addProduct(String name, Integer quantity, Integer price,Integer idProduct, Integer idShop){
         // Проверьте, существует ли продукт
         for (Products product : products) {
             if (product.getName().equals(name)) {
@@ -23,7 +28,7 @@ public class Shop extends Stores{
                 return;
             }
         }
-        products.add(new Products(name, quantity, price));
+        products.add(new Products(name, quantity, price,idProduct,idShop));
     }
 
     // Метод для получения информации о товаре
@@ -46,4 +51,11 @@ public class Shop extends Stores{
         return products;
     }
 
+    public Integer getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(Integer idShop) {
+        this.idShop = idShop;
+    }
 }

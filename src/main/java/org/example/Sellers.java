@@ -7,9 +7,9 @@ public class Sellers extends ADMIN{
     private Integer quantityOfGoodsSold;
 
 
-    public void addProductToStore(Shop store, String productName, Integer quantity, Integer price){
+    public void addProductToStore(Shop store, String productName, Integer quantity, Integer price,Integer idProduct,Integer idShop){
         if(store != null){
-            store.addProduct(productName,quantity,price);
+            store.addProduct(productName,quantity,price,idProduct,idShop);
         }else{
             System.out.println("Магазин не найден");
         }
@@ -37,7 +37,7 @@ public class Sellers extends ADMIN{
     public Sellers(){}
 
     public Sellers(String Name ,String email, Status Status, Integer age, Integer idShop, boolean isActive, Integer quantityOfGoodsSold, Integer id){
-        super(Name,email,Status,age);
+        super(Name,email,Status,age,id);
         this.idShop = idShop;
         this.isActive = isActive;
         this.quantityOfGoodsSold = quantityOfGoodsSold;

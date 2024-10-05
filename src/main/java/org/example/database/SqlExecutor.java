@@ -55,16 +55,18 @@ public class SqlExecutor {
         }
     }
 
-    public void Delete(String sql){
-        try {
-            Statement statement = connection.createStatement();
-            int rows = statement.executeUpdate(sql);
-        }catch (SQLException e){
+    public void Delete(String sql, Integer id) {
+        try (var preparedStm = connection.prepareStatement(sql)) {
+            // Устанавливаем параметр id
+            preparedStm.setInt(1, id);
+
+            preparedStm.executeUpdate();
+        } catch (SQLException e) {
             throw new SqlRuntimeException(e);
         }
     }
 
-    public void Changedata(String sql){
+    public void ChangeData(String sql){
         try {
             Statement statement = connection.createStatement();
             int rows = statement.executeUpdate(sql);

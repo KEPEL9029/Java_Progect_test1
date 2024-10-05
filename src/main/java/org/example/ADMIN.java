@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ADMIN {
-    private Long id;
+
+
+    private Integer id;
     private String Name ;
     private String email;
     private Status Status;
@@ -17,11 +19,12 @@ public class ADMIN {
 
     public ADMIN(){}
 
-    public ADMIN(String Name ,String email, Status Status, Integer age){
+    public ADMIN(String Name ,String email, Status Status, Integer age, Integer id){
         this.Name = Name;
         this.email = email;
         this.Status = Status;
         this.age = age;
+        this.id = id;
     }
 
 
@@ -36,6 +39,29 @@ public class ADMIN {
                 new SqlData(7, sellers.isActive(), DataType.BOOLEAN));
     }
 
+    public List<SqlData> addValueInTable(ADMIN admin){
+        return List.of(new SqlData(1,admin.getId(),DataType.INTEGER),
+                new SqlData(2,admin.getName(),DataType.STRING),
+                new SqlData(3, admin.getEmail(), DataType.STRING),
+                new SqlData(4, admin.getStatus().toString(), DataType.STRING),
+                new SqlData(5, admin.getAge(), DataType.INTEGER));
+    }
+
+    public List<SqlData> addValueInTable(Products products){
+        return List.of(new SqlData(1,products.getIdProducts(), DataType.INTEGER),
+                new SqlData(2,products.getName(),DataType.STRING),
+                new SqlData(3,products.getQuantity(),DataType.INTEGER),
+                new SqlData(4,products.getPrice(),DataType.INTEGER),
+                new SqlData(5,products.getIdShop(),DataType.INTEGER));
+
+    }
+
+    public List<SqlData> addValueInTable(Shop shop){
+        return List.of(new SqlData(1,shop.getIdShop(),DataType.INTEGER),
+                new SqlData(2,shop.getStoreName(),DataType.STRING),
+                new SqlData(3,shop.getLocation(),DataType.STRING),
+                new SqlData(4,shop.isOpen(),DataType.BOOLEAN));
+    }
 
     public void addSeller(Sellers seller) {
         if (seller != null) {
@@ -54,7 +80,13 @@ public class ADMIN {
         }
     }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

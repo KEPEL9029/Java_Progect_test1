@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.database.DataType;
 import org.example.database.PostgresConnection;
 import org.example.database.SqlData;
 import org.example.database.SqlExecutor;
@@ -18,14 +17,25 @@ public class Main {
         admin.setStatus(Status.ADMIN);
 
         SqlExecutor sqlExecutor = new SqlExecutor(connection);
-        List<SqlData> data = new ArrayList<>();
 
-        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,3);
+        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,10);
         var list =  admin.addValueInTable(seller1);
-
         sqlExecutor.insert("INSERT INTO sellers (id, name, email, status, age, id_shop, is_active)" + "VALUES (?, ?, ?, ?, ?, ?, ?);",list);
-        sqlExecutor.Delete("DELETE FROM sellers WHERE id = 1");
-        sqlExecutor.Changedata("UPDATE sellers\n" + "SET name = 'Александр'\n" + "WHERE id = 1;\n");
+
+        ADMIN admin1 = new ADMIN("Николай","kol@kol.com",Status.ADMIN,30,1);
+        list = admin.addValueInTable(admin1);
+        sqlExecutor.insert("INSERT INTO admins (id, name, email, status, age)" + "VALUES (?, ?, ?, ?, ?);",list);
+
+        Products products = new Products("Пылесос",10,1000,2,3);
+        list = admin.addValueInTable(products);
+        sqlExecutor.insert("INSERT INTO products (id, name, quantity, price, id_shop)" + "VALUES (?, ?, ?, ?, ?);",list);
+
+        Shop shop = new Shop("Магазин технили","Город 2",true,2);
+        list = admin.addValueInTable(shop);
+        sqlExecutor.insert("INSERT INTO shops (id, store_name, location,is_open)" + "VALUES (?, ?, ?, ?);",list);
+
+        // sqlExecutor.Delete("DELETE FROM sellers WHERE id = ?",3);*/
+       // sqlExecutor.ChangeData("UPDATE sellers\n" + "SET name = 'Александр'\n" + "WHERE id = 1;\n");
 
         admin.addSeller(seller1);
         admin.removeSeller(seller1);
@@ -34,15 +44,15 @@ public class Main {
 
         Sellers seller2 = new Sellers("Иван", "ivan@example.com", Status.SELLER, 30, 1, true, 0,1);
 
-        Shop productStore = new Shop("Магазин продуктов", "Город 1", true);
-        Shop productStore2 = new Shop("Магазин техники", "Город 2", true);
+        Shop productStore = new Shop("Магазин продуктов", "Город 1", true,1);
+        Shop productStore2 = new Shop("Магазин техники", "Город 2", true,2);
 
         // Продавец добавляет товар
-        seller1.addProductToStore(productStore, "Кокосы", 100, 50);
-        seller1.addProductToStore(productStore, "Кокосы", 234, 60);
+        seller1.addProductToStore(productStore, "Кокосы", 100, 50,1,1);
+        seller1.addProductToStore(productStore, "Кокосы", 234, 60,1,1);
 
-        seller2.addProductToStore(productStore2, "Айфон", 15, 2000);
-        seller2.addProductToStore(productStore2, "Айфон", 20, 2000);
+        seller2.addProductToStore(productStore2, "Айфон", 15, 2000,2,2);
+        seller2.addProductToStore(productStore2, "Айфон", 20, 2000,2,2);
 
         System.out.println();
 
