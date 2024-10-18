@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.database.DataType;
 import org.example.database.PostgresConnection;
 import org.example.database.SqlData;
 import org.example.database.SqlExecutor;
@@ -18,7 +19,13 @@ public class Main {
 
         SqlExecutor sqlExecutor = new SqlExecutor(connection);
 
-        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,10);
+        sqlExecutor.Delete("DELETE FROM sellers",null);
+        sqlExecutor.Delete("DELETE FROM shops",null);
+        sqlExecutor.Delete("DELETE FROM products",null);
+        sqlExecutor.Delete("DELETE FROM admins",null);
+
+
+        Sellers seller1 = new Sellers("Николай","mama@mama.com",Status.SELLER,20,1,true,10,2);
         var list =  admin.addValueInTable(seller1);
         sqlExecutor.insert("INSERT INTO sellers (id, name, email, status, age, id_shop, is_active)" + "VALUES (?, ?, ?, ?, ?, ?, ?);",list);
 
@@ -34,8 +41,17 @@ public class Main {
         list = admin.addValueInTable(shop);
         sqlExecutor.insert("INSERT INTO shops (id, store_name, location,is_open)" + "VALUES (?, ?, ?, ?);",list);
 
-        // sqlExecutor.Delete("DELETE FROM sellers WHERE id = ?",3);*/
-       // sqlExecutor.ChangeData("UPDATE sellers\n" + "SET name = 'Александр'\n" + "WHERE id = 1;\n");
+        sqlExecutor.Delete("DELETE FROM sellers WHERE id = ?",3);
+
+        // Пример обновления данных с использованием безопасного метода changeData
+        String updateSql = "UPDATE sellers SET name = ? WHERE id = ?";
+        List<SqlData> updateParams = List.of(
+                new SqlData(1, "Александр", DataType.STRING),
+                new SqlData(2, 1, DataType.INTEGER)
+        );
+        sqlExecutor.changeData(updateSql, updateParams);
+
+
 
         admin.addSeller(seller1);
         admin.removeSeller(seller1);

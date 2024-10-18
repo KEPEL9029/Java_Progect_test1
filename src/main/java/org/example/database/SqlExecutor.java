@@ -57,25 +57,51 @@ public class SqlExecutor {
 
     public void Delete(String sql, Integer id) {
         try (var preparedStm = connection.prepareStatement(sql)) {
-            // Устанавливаем параметр id
-            preparedStm.setInt(1, id);
-
+            if (id != null) {
+                preparedStm.setInt(1, id);
+            }
             preparedStm.executeUpdate();
         } catch (SQLException e) {
             throw new SqlRuntimeException(e);
         }
     }
 
-    public void ChangeData(String sql){
-        try {
-            Statement statement = connection.createStatement();
-            int rows = statement.executeUpdate(sql);
-        }catch (SQLException e){
+
+    public void changeData(String sql, List<SqlData> sqlData) {
+        try (var preparedStm = connection.prepareStatement(sql)) {
+            // Устанавливаем параметры запроса
+            for (SqlData data : sqlData) {
+                switch (data.type()) {
+                    case STRING -> {
+                        if (data.value() == null) {
+                            preparedStm.setNull(data.index(), JDBCType.VARCHAR.getVendorTypeNumber());
+                        } else {
+                            preparedStm.setString(data.index(), (String) data.value());
+                        }
+                    }
+                    case INTEGER -> {
+                        if (data.value() == null) {
+                            preparedStm.setNull(data.index(), JDBCType.INTEGER.getVendorTypeNumber());
+                        } else {
+                            preparedStm.setInt(data.index(), (Integer) data.value());
+                        }
+                    }
+                    case BOOLEAN -> {
+                        if (data.value() == null) {
+                            preparedStm.setNull(data.index(), JDBCType.BOOLEAN.getVendorTypeNumber());
+                        } else {
+                            preparedStm.setBoolean(data.index(), (Boolean) data.value());
+                        }
+                    }
+                }
+            }
+
+            // Выполняем обновление данных
+            preparedStm.executeUpdate();
+        } catch (SQLException e) {
             throw new SqlRuntimeException(e);
         }
     }
-
-
 
 
 //    public Long insert(String sql, ADMIN admin) throws SQLException {
